@@ -1,70 +1,143 @@
-# Getting Started with Create React App
+### This repo is about practice content of react and will host resource or maybe some code snippets to use later.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# My Editor Setup
+- [plugins](#plugins)
+- [Settings](#settings)
+- [Set Line Breaks](#set-line-breaks)
+- [Linting Setup](#linting-setup)
+  - [Install Dev Dependencies](#install-dev-dependencies)
+  - [Create Linting Configuration file manually](#create-linting-configuration-file-manually)
 
-In the project directory, you can run:
 
-### `npm start`
+  ## Editor Setup
+  This is my personal vscode setup, and i prefer workspace configuration  instead of global settings.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  ### plugins
+    install the plugins:
+    - EsLint
+    - Prettier
+    - Dracula theme (or any)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  ### settings   
 
-### `npm test`
+  Follow the below settings
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  1. Create a new folder called ".vscode" inside the project root folder
+  2. Create a new file called "settings.json" inside that folder.
+  3. Paste the below json in the newly created settings.json file and save the file.  
 
-### `npm run build`
+```json
+{
+  // Theme
+  "workbench.colorTheme": "Dracula",
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  // config related to code formatting
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "javascript.validate.enable": false, //disable all built-in syntax checking
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.tslint": true,
+    "source.organizeImports": true
+  },
+  "eslint.alwaysShowStatus": true,
+  // emmet
+  "emmet.triggerExpansionOnTab": true,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  }
+}
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Set Line Breaks
 
-### `npm run eject`
+Make sure in your VS Code Editor, "LF" is selected as line feed instead of CRLF (Carriage return and line feed). To do that, just click LF/CRLF in bottom right corner of editor, click it and change it to "LF". If you dont do that, you will get errors in my setup.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Install Dev Dependencies
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```sh
+npm i -D prettier
+npm i -D babel-eslint
+npx install-peerdeps --dev eslint-config-airbnb
+npm i -D eslint-config-prettier eslint-plugin-prettier
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+or You can also add a new script in the scripts section like below to install everything with a single command:  (personal favorite)
 
-## Learn More
+```json
+scripts: {
+    "lint": "npm i -D prettier && npm i -D babel-eslint && npx install-peerdeps --dev eslint-config-airbnb && npm i -D eslint-config-prettier eslint-plugin-prettier"
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+and then simply run the below command in the terminal -
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```sh
+npm run lint
+```
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Create Linting Configuration file manually
 
-### Analyzing the Bundle Size
+Create a `.eslintrc` file in the project root and enter the below contents:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```json
+{
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "eslint:recommended",
+    "prettier",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "rules": {
+    "react/react-in-jsx-scope": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "no-console": 0,
+    "react/state-in-constructor": 0,
+    "indent": 0,
+    "linebreak-style": 0,
+    "react/prop-types": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "es5",
+        "singleQuote": true,
+        "printWidth": 100,
+        "tabWidth": 4,
+        "semi": true,
+        "endOfLine": "auto"
+      }
+    ]
+  },
+  "plugins": ["prettier", "react", "react-hooks"]
+}
+```
